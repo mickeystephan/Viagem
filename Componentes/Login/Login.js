@@ -4,19 +4,28 @@ import { View, Text, Image, StyleSheet } from "react-native";
 export default function Login() {
   return (
     <View style={styles.container}>
-      <Text style={styles.tittle}>Fly Dream</Text>
-      <Image source={{ uri: 'https://placehold.co/100x100' }} style={styles.profileImage} />
-      <TextInput style={styles.input} placeholder="Email" placeholderTextColor="#fff" />
-      <TextInput
-        style={styles.input}
-        placeholder="E-mail"
-        placeholderTextColor="#fff"
-        keyboardType="email-address"
+      <Text style={styles.title}>Fly Dream</Text>
+      <Image style={styles.profileImage} source={require('../../assets/download.png')} />
+      <TextInput 
+        style={styles.input} 
+        placeholder="Email" 
+        placeholderTextColor="#fff" 
+        keyboardType="email-address" 
+        autoCapitalize="none"
       />
+      
+      <TextInput 
+        style={styles.input} 
+        placeholder="Senha" 
+        placeholderTextColor="#fff" 
+        secureTextEntry={true} // Oculta senha
+      />
+      
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Get Start</Text>
       </TouchableOpacity>
-      <Text style={styles.registerText}>Não tenho conta registrada</Text>
+      
+      <Text style={styles.registerText}>Don't have an account? Register</Text>
     </View>
   );
 }
@@ -27,12 +36,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
   },
-  tittle: {
-    fontSize: 24,
+  title: {
+    fontSize: 28,
     fontWeight: 'bold',
     color: '#1E90FF',
     marginBottom: 20,
+    textAlign: 'center',
   },
   profileImage: {
     width: 100,
@@ -41,30 +52,37 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: '80%',
-    height: 40,
+    width: '85%',
+    height: 45,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+    paddingHorizontal: 12,
+    textAlign: 'center',
+    backgroundColor: '#1E90FF20', // Leve transparência para destacar o input
   },
   button: {
-    width: 150,
+    width: '85%',
     height: 50,
     backgroundColor: '#1E90FF',
     borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
+    fontWeight: 'bold',
   },
   registerText: {
     color: '#000',
     fontSize: 14,
+    textAlign: 'center',
   },
 });
