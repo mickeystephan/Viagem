@@ -1,7 +1,8 @@
 import { TextInput, TouchableOpacity } from "react-native";
 import { View, Text, Image, StyleSheet } from "react-native";
 
-export default function Login() {
+export default function Login({navigatiom}) {
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Fly Dream</Text>
@@ -9,7 +10,7 @@ export default function Login() {
       <TextInput 
         style={styles.input} 
         placeholder="Email" 
-        placeholderTextColor="#fff" 
+        placeholderTextColor="#000" 
         keyboardType="email-address" 
         autoCapitalize="none"
       />
@@ -17,7 +18,7 @@ export default function Login() {
       <TextInput 
         style={styles.input} 
         placeholder="Senha" 
-        placeholderTextColor="#fff" 
+        placeholderTextColor="#000" 
         secureTextEntry={true} // Oculta senha
       />
       
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: '85%',
+    width: 200,
     height: 45,
     borderWidth: 1,
     borderColor: '#ccc',
