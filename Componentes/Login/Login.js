@@ -1,17 +1,19 @@
+import { use, useState } from "react";
 import { TextInput, TouchableOpacity } from "react-native";
 import { View, Text, Image, StyleSheet } from "react-native";
+import * as SQLite from "expo-sqlite";
 
-export default function Login({navigatiom}) {
+export default function Login({navigation}) {
   
   return (
+    
     <View style={styles.container}>
       <Text style={styles.title}>Fly Dream</Text>
       <Image style={styles.profileImage} source={require('../../assets/download.png')} />
       <TextInput 
         style={styles.input} 
-        placeholder="Email" 
+        placeholder="User" 
         placeholderTextColor="#000" 
-        keyboardType="email-address" 
         autoCapitalize="none"
       />
       
@@ -31,7 +33,7 @@ export default function Login({navigatiom}) {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
