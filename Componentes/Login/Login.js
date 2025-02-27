@@ -1,10 +1,38 @@
-import { use, useState } from "react";
-import { TextInput, TouchableOpacity } from "react-native";
+import React ,{ useState } from "react";
+import { Alert, TextInput, TouchableOpacity } from "react-native";
 import { View, Text, Image, StyleSheet } from "react-native";
-import * as SQLite from "expo-sqlite";
+import { userOperation } from "../../Database/db";
 
-export default function Login({navigation}) {
-  
+
+export default function Login({onLoginSuccess, navigateToRegister}) {
+  const [user , setuser] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () =>{
+    if (!user || !password){
+      Alert.alert("Error", "Please fill in all fields");
+      return
+    }
+    setIsLoading(true);
+
+    try {
+      const user = await userOperation.login(user, password);
+
+      if (user) {
+        Alert.alert("Login successfully");
+        onLoginSuccess(user);
+      } else {
+        Alert.alert("Error");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      Alert.alert("Error", "An error occurred during login");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     
     <View style={styles.container}>
@@ -13,6 +41,8 @@ export default function Login({navigation}) {
       <TextInput 
         style={styles.input} 
         placeholder="User" 
+        value={user}
+        onChangeText={setuser}
         placeholderTextColor="#000" 
         autoCapitalize="none"
       />
@@ -20,15 +50,28 @@ export default function Login({navigation}) {
       <TextInput 
         style={styles.input} 
         placeholder="Senha" 
+        value={password}
+        onChangeText={setPassword}
         placeholderTextColor="#000" 
-        secureTextEntry={true} // Oculta senha
+        secureTextEntry={true} 
       />
-      
+       <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={isLoading}
+      >
+        <Text style={styles.buttonText}>
+          {isLoading ? "Loading..." : "Login"}
+        </Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Get Start</Text>
       </TouchableOpacity>
       
-      <Text style={styles.registerText}>Don't have an account? Register</Text>
+      <TouchableOpacity onPress={navigateToRegister}>
+        <Text style={styles.registerText}>Don't have an account? Register</Text>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -7,6 +7,7 @@ export default function FavoriteScreen(){
     <ScrollView>
         <View>
             <Text>Favorite</Text>
+            
         </View>
         
     </ScrollView>
