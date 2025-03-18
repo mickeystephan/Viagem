@@ -3,26 +3,34 @@ import {  View,  } from "react-native";
 import Login from "./Componentes/Login/Login";
 import RegisterScreen from "./Componentes/screns/RegisterScreen";
 import HomeScreen from "./Componentes/screns/HomeSreen";
+import {
+  initDatabase,
+ 
+  
+} from "./Database/db"
+
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState("login");
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
 
+
   useEffect(() => {
-    
-    (setupDatabase = async () => {
+    const setupDatabase = async () => {
       try {
-        initDatabase();
+        await initDatabase(); 
         setIsLoading(false);
       } catch (error) {
         console.error("Error initializing database:", error);
         setIsLoading(false);
       }
-    }),
-      setupDatabase();
+    };
+
+    setupDatabase();
   }, []);
 
+ 
   handleLogin = (user) => {
     setCurrentScreen("home");
     setCurrentUser(user);
@@ -38,7 +46,7 @@ export default function App() {
   };
 
   navigateToLogin = () => {
-    currentScreen("login");
+    setCurrentScreen("login");
   };
 
   return (
@@ -46,11 +54,12 @@ export default function App() {
       {currentScreen === "login" && (
         <Login
           onLogin={handleLogin}
+          onLoginSuccess={(user) => {setCurrentScreen("home"); setCurrentUser(user)}}
           navigateToRegister={navigateToRegister}
         />
       )}
       {currentScreen === "register" && (
-        <RegisterScreen onLogin={navigateToLogin} />
+        <RegisterScreen onLogin={() => setCurrentScreen("home")} />
       )}
       {currentScreen === "home" && (
         <HomeScreen user={currentUser} onLogout={handleLogout} />

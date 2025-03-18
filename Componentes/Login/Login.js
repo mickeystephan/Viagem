@@ -1,29 +1,36 @@
-import React ,{ useState } from "react";
-import { Alert, TextInput, TouchableOpacity } from "react-native";
-import { View, Text, Image, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { 
+  Alert, 
+  TextInput, 
+  TouchableOpacity, 
+  View, 
+  Text, 
+  Image, 
+  StyleSheet 
+} from "react-native";
 import { userOperation } from "../../Database/db";
 
-
-export default function Login({onLoginSuccess, navigateToRegister}) {
-  const [user , setuser] = useState('')
-  const [password, setPassword] = useState('')
+export default function Login({ onLoginSuccess, navigateToRegister }) {
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async () =>{
-    if (!user || !password){
+  const handleLogin = async () => {
+    onLoginSuccess()
+    if (!user || !password) {
       Alert.alert("Error", "Please fill in all fields");
-      return
+      return;
     }
     setIsLoading(true);
 
     try {
-      const user = await userOperation.login(user, password);
+      const userData = await userOperation.login(user, password);
 
-      if (user) {
+      if (userData) {
         Alert.alert("Login successfully");
-        onLoginSuccess(user);
+        onLoginSuccess(userData);
       } else {
-        Alert.alert("Error");
+        Alert.alert("Error", "Invalid username or password");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -31,64 +38,66 @@ export default function Login({onLoginSuccess, navigateToRegister}) {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
-    
     <View style={styles.container}>
       <Text style={styles.title}>Fly Dream</Text>
-      <Image style={styles.profileImage} source={require('../../assets/download.png')} />
+      <Image 
+        style={styles.profileImage} 
+        source={require('../../assets/download.png')} 
+      />
+      
       <TextInput 
         style={styles.input} 
         placeholder="User" 
         value={user}
-        onChangeText={setuser}
+        onChangeText={setUser}
         placeholderTextColor="#000" 
         autoCapitalize="none"
       />
       
       <TextInput 
         style={styles.input} 
-        placeholder="Senha" 
+        placeholder="Password" 
         value={password}
         onChangeText={setPassword}
         placeholderTextColor="#000" 
-        secureTextEntry={true} 
+        secureTextEntry 
       />
-       <TouchableOpacity
+      
+      <TouchableOpacity
         style={styles.button}
         onPress={handleLogin}
         disabled={isLoading}
+        accessibilityLabel="Login Button"
       >
         <Text style={styles.buttonText}>
           {isLoading ? "Loading..." : "Login"}
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Get Start</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity onPress={navigateToRegister}>
-        <Text style={styles.registerText}>Don't have an account? Register</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToRegister}>
+        <Text style={styles.buttonText}>Create Account</Text>
       </TouchableOpacity>
     </View>
   );
 }
+
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#1E90FF',
-    marginBottom: 20,
+    marginTop: 100,
     textAlign: 'center',
   },
   profileImage: {
@@ -106,7 +115,7 @@ export const styles = StyleSheet.create({
     marginBottom: 15,
     paddingHorizontal: 12,
     textAlign: 'center',
-    backgroundColor: '#1E90FF20', // Leve transparência para destacar o input
+    backgroundColor: '#1E90FF20',
   },
   button: {
     width: '85%',
@@ -130,5 +139,6 @@ export const styles = StyleSheet.create({
     color: '#000',
     fontSize: 14,
     textAlign: 'center',
+    marginTop: 10,
   },
 });

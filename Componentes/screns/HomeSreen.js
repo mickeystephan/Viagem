@@ -1,34 +1,57 @@
 import React from "react";
-import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View , Image, StyleSheet} from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function HomeScreen({navigation}){
+export default function HomeScreen({user, onLogout}){
+ 
    return(
-    <ScrollView>
-      <View>
-        <Text>Explore your Dream</Text>
-     <Ionicons name="cog" size={24} color="black" />
-     <TextInput
-      placeholder="Search"
-      />
-      <View>
-        <Text>Places</Text>
-        <ScrollView>
-            <TouchableOpacity>
-                <Image source={require('../../assets/varandinha.jpg')}/>
-                <Text>Varandinha, Boa Vista</Text>
-            </TouchableOpacity>
-            <TouchableOpacity>
-          <Image source={require('../../assets/tarrafal.jpg')} />
-          <Text >Tarrafal, Santiago</Text>
-        </TouchableOpacity>
+    <ScrollView >
+      <View style={styles.container}>
+        <View style={styles.header}>
+        <Text style={styles.title}>Explore your Dream</Text>
+        <Ionicons name="cog" size={24} color="black" />
+      </View>
+
+      <TextInput style={styles.searchBox} placeholder="Search" />
+
+      <View style={styles.placesContainer}>
+        <Text style={styles.placesTitle}>Places</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.scrollContainer}>
+          <TouchableOpacity style={styles.placeCard}>
+            <Image source={require('../../assets/varandinha.jpg')} style={styles.placeImage} />
+            <Text style={styles.placeText}>Varandinha, Boa Vista</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.placeCard}>
+            <Image source={require('../../assets/tarrafal.jpg')} style={styles.placeImage} />
+            <Text style={styles.placeText}>Tarrafal, Santiago</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
-      <Text >
-        Enjoy the beautiful landscapes that the Cabo Verde islands offer in this vast Atlantic Ocean
+      <Text style={styles.description}>
+        Enjoy the beautiful landscapes that the Cabo Verde islands offer in this vast Atlantic Ocean.
       </Text>
       </View>
+      
     </ScrollView>
-   
    )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingHorizontal: 20,
+    marginTop: 100,
+  },
+ header: {
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: 20,
+  gap: 100,
+  backgroundColor: '#1E90FF20',
+ }
+})

@@ -1,11 +1,11 @@
-import * as SQLite from "expo-sqlite";
+import * as SQLite from "expo-sqlite"
 let dbInstance = null;
 export  const initDatabase = async () =>{
     try {
     if (!dbInstance){
-      dbInstance = await SQLite.openDatabaseAsync();
-      await dbInstance.exeAsunc(
-        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT UNIQUE, password TEXT)"
+      dbInstance = await SQLite.openDatabaseAsync("auth.db");
+      await dbInstance.execAsync(
+        "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, user TEXT UNIQUE, password TEXT)"
       );
 
       console.log("Database and table created successfully");
@@ -26,27 +26,28 @@ export const getDatabase = async () => {
 }
 
 export const userOperation = {
-  login:async (username, password) => {
+  login:async (user, password) => {
     const db = await getDatabase();
     return await db.getFirstAsync(
-      "SELECT * FROM users WHERE username = ? AND password = ?",
-      [username, password]
+      "SELECT * FROM users WHERE user = ? AND password = ?",
+      [user, password]
     );
   },
 
-  findByUsername: async (username) => {
+  findByUser: async (user) => {
     const db = await getDatabase();
-    return await db.getFirstAsync("SELECT * FROM users WHERE username = ?", [
-      username,
+    return await db.getFirstAsync("SELECT * FROM users WHERE user = ?", [
+      user,
     ]);
   },
 
-  register: async (username, password) => {
+  register: async (user, password) => {
     const db = await getDatabase();
     return await db.runAsync(
-      "INSERT INTO users (username, password) VALUES (?, ?)",
-      [username, password]
+      "INSERT INTO users (user, password) VALUES (?, ?)",
+      [user, password]
     );
   },
 };
+
 
