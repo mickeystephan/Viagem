@@ -9,7 +9,7 @@ export default function HomeScreen({user, onLogout}){
       <View style={styles.container}>
         <View style={styles.header}>
         <Text style={styles.title}>Explore your Dream</Text>
-        <Ionicons name="cog" size={24} color="black" />
+        <Ionicons name="cog" size={28} color="black" />
       </View>
 
       <TextInput style={styles.searchBox} placeholder="Search" />
@@ -44,6 +44,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingHorizontal: 20,
     marginTop: 100,
+    width: '100%',
+    height: '100%',
   },
  header: {
   display: 'flex',
@@ -52,6 +54,10 @@ const styles = StyleSheet.create({
   alignItems: 'center',
   marginBottom: 20,
   gap: 100,
-  backgroundColor: '#1E90FF20',
+  
+ },
+ title: {
+  fontFamily: 25,
  }
+
 })
